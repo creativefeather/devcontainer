@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $(ls -A | wc -l) -eq 0 ]
+then
+  npx degit sveltejs/template
+  npm install
+  npm install --save-dev chokidar
+
+  # mv README.md
+  mv $APP_FILES/README.md $APP_DIR/EXTRA_SETUP.md
+  mv $APP_FILES/docker-compose.yml $APP_DIR/docker-compose.yml
+  mv $APP_FILES/docker-compose.override.yml $APP_DIR/docker-compose.override.yml
+
+  rmdir $APP_FILES
+else
+  npm run dev
+fi
