@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $(ls -A | wc -l) -eq 0 ]
+then
+  if [ $1 -eq 'webpack' ]
+  then
+    # for webpack
+    npx degit "sveltejs/sapper-template#webpack" .
+  else
+    # for Rollup
+    npx degit "sveltejs/sapper-template#rollup" .
+  fi
+  
+  npm install
+  npm install --save-dev chokidar
+
+  # Move files into app directory
+  mv $APP_FILES_DEST/EXTRA_SETUP.md $APP_DIR/EXTRA_SETUP.md
+  mv $APP_FILES_DEST/docker-compose.sapper.yml $APP_DIR/docker-compose.yml
+  mv $APP_FILES_DEST/docker-compose.override.sapper.yml $APP_DIR/docker-compose.override.yml
+
+  rm -rf $APP_FILES_DEST
+else
+  npm run dev
+fi

@@ -7,11 +7,11 @@ then
   npm install --save-dev chokidar
 
   # mv README.md
-  mv $APP_FILES/README.md $APP_DIR/EXTRA_SETUP.md
-  mv $APP_FILES/docker-compose.yml $APP_DIR/docker-compose.yml
-  mv $APP_FILES/docker-compose.override.yml $APP_DIR/docker-compose.override.yml
+  mv $APP_FILES_DEST/EXTRA_SETUP.md $APP_DIR/EXTRA_SETUP.md
+  mv $APP_FILES_DEST/docker-compose.svelte.yml $APP_DIR/docker-compose.yml
+  mv $APP_FILES_DEST/docker-compose.override.svelte.yml $APP_DIR/docker-compose.override.yml
 
-  rmdir $APP_FILES
+  rm -rf $APP_FILES_DEST
 else
   npm run dev
 fi
