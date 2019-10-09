@@ -1,0 +1,7 @@
+{
+  "name": "Svelte",
+  "dockerComposeFile": "docker-compose.yml",
+  "extensions": [
+
+  ]
+}

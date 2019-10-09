@@ -1,0 +1,3 @@
+#!/bin/bash
+
+IS_EMPTY=($(ls -A | wc -l) -eq 0)

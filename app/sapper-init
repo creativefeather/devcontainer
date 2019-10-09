@@ -1,6 +1,11 @@
 #!/bin/bash
 
+IS_EMPTY="false"
 if [ $(ls -A | wc -l) -eq 0 ]
+then
+  IS_EMPTY="true"
+fi
+
 then
   if [ $1 -eq 'webpack' ]
   then
