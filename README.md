@@ -2,13 +2,17 @@
 ## Global Packages (from base Dockerfile)
 * yarn
 * typscript
-* tslint
+* @typescript-eslint/parser
+* @typescript-eslint/eslint-plugin
+* eslint
 * lerna
 * oclif
 
 # Scripts
 
 \* Make sure to modify the npm scripts: *__build__* _--tag \<value\>_ option & *__push__* image argument.
+
+First build, then run/create a container to create an image out of (docker commit). After, push the image to docker hub.
 
 ## _[build]_
 
@@ -26,7 +30,7 @@ Pushes built image to **Docker Hub**.
 
      $ npm run git:file <path-spec>...
 
-A script you might want to use in another project to grab the _.devcontainer_ files.
+A script to grab another file in another branch--grab the _.devcontainer_ files.
 
 ## _[git:orphan]_
 
