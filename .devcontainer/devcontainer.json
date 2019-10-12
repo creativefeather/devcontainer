@@ -16,7 +16,10 @@
 	// new files getting created as root, but you may need to update the USER_UID
 	// and USER_GID in .devcontainer/Dockerfile to match your user if not 1000.
 	// "runArgs": [ "-u", "node" ],
-	// "runArgs": ["-v", "test:/workspaces/container"],
+	"runArgs": [
+		"--name",
+		"nodejs-dev-base"
+	],
 	// Add the IDs of extensions you want installed when the container is created in the array below.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
