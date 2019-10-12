@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "docker build --file .devcontainer/Dockerfile --tag creativefeather/nodejs-dev:base .",
-    "commit": "docker commit -a \"creativefeather <creativefeather@outlook.com>\" creativefeather/nodejs-dev:base creativefeather/nodejs-dev:latest",
+    "commit": "docker commit -a \"creativefeather <creativefeather@outlook.com>\" nodejs-dev-base creativefeather/nodejs-dev:latest",
     "push": "docker push creativefeather/nodejs-dev:latest",
     "git:file": "git checkout nodejs --",
     "git:orphan": "git checkout --orphan"
