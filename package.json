@@ -6,7 +6,8 @@
   "scripts": {
     "build": "docker build --file .devcontainer/Dockerfile --tag creativefeather/nodejs-dev:latest .",
     "commit": "docker commit -a \"creativefeather <creativefeather@outlook.com>\" nodejs-dev-latest creativefeather/nodejs-dev:latest",
-    "push": "docker push creativefeather/nodejs-dev:latest",
+    "docker:push": "docker push creativefeather/nodejs-dev:latest",
+    "git:push": "git push origin nodejs",
     "git:file": "git checkout nodejs --",
     "git:orphan": "git checkout --orphan"
   },
