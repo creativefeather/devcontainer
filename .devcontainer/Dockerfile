@@ -47,6 +47,7 @@ RUN su node && cd ~ &&\
   @typescript-eslint/parser \
   @typescript-eslint/eslint-plugin \
   typescript \
+  ts-node \
   lerna \
   oclif
 #
