@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  test-java-21-bullseye:
+    image: java-21:bullseye
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: java-21-bullseye.Dockerfile

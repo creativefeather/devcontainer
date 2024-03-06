@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    image: pi-cluster-1:5000/java-maven:amd64
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: <example>           # change this
+      MYSQL_DATABASE: <your_database_name>     # change this
+      MYSQL_USER: <your_database_user>         # change this
+      MYSQL_PASSWORD: <your_database_password> # change this
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
