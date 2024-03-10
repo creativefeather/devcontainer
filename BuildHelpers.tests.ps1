@@ -1,7 +1,11 @@
-Describe 'build-helpers' {
+Describe 'BuildHelpers' {
     #  Import the script to test
     BeforeAll {
-        . './build-helpers.ps1'
+        $global:testing_BuildHelpers_psm1 = $true
+        Import-Module `
+            -Name (Resolve-Path ( Join-Path $PSScriptRoot './BuildHelpers.psm1')) `
+            -Verbose `
+            -Force
     }
 
     Context 'Prompt-YesNo' {
@@ -35,5 +39,9 @@ Describe 'build-helpers' {
             $expected = "localhost:5000/image1 localhost:5000/image2 localhost:5000/image3"
             expandList $images -WithHostname $hostname | Should -Be $expected
         }
+    }
+
+    AfterAll {
+        Remove-Variable -Name testing_BuildHelpers_psm1 -Scope Global -Force
     }
 }

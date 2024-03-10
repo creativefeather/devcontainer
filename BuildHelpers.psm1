@@ -1,3 +1,8 @@
+# TODO: WARNING: The names of some imported commands from the module 'BuildHelpers'
+# include unapproved verbs that might make them less discoverable. To find the
+# commands with unapproved verbs, run the Import-Module command again with the 
+# Verbose parameter. For a list of approved verbs, type Get-Verb.
+
 function Prompt-YesNo {
     param(
         [Parameter(Mandatory = $false, Position = 0)]
@@ -10,7 +15,7 @@ function Prompt-YesNo {
     $yes_pattern = "^(y|ye|yes)$"
 
     # If input is provided, use it. Otherwise, prompt the user for input
-    if ($Input -ne $null) {
+    if ($null -ne $Input -and $Input.Length -gt 0) {
         $response = $Input
     }
     else {
@@ -97,4 +102,67 @@ function New-ManifestList {
     Write-Host "Creating manifest..."
     New-Manifest -manifest_name $manifest_name -list $imageList
     return $manifest_name
+}
+
+class BuildSpec {
+    [string]$BaseImage
+    [string]$Dockerfile
+    [string]$Name
+    [string]$Platform
+    [string]$Tag
+    [string]$TargetStage
+
+    BuildSpec() { }
+
+    static [BuildSpec]fromHashtable([hashtable]$spec) {
+        $new = [BuildSpec]::new()
+
+        if ($null -eq $spec) {
+            return $new
+        }
+
+        switch ($spec.Keys) {
+            "BaseImage" { $new.BaseImage = $spec["BaseImage"] }
+            "Dockerfile" { $new.Dockerfile = $spec["Dockerfile"] }
+            "Name" { $new.Name = $spec["Name"] }
+            "Platform" { $new.Platform = $spec["Platform"] }
+            "Tag" { $new.Tag = $spec["Tag"] }
+            "TargetStage" { $new.TargetStage = $spec["TargetStage"] }
+        }
+
+        return $new
+    }
+
+    [void]display() {
+        Write-Host "-----------------------------------"
+        Write-Host "$($this.Name):$($this.Tag)".ToUpper()
+        Write-Host "dockerfile  : $($this.Dockerfile)"
+        Write-Host "base        : $($this.BaseImage)"
+        Write-Host "platform    : $($this.Platform)"
+        Write-Host "target stage: $($this.TargetStage)"
+        Write-Host "-----------------------------------"   
+    }
+    
+    [string]getNameTag() {
+        return "$($this.Name):$($this.Tag)"
+    }
+
+    [void]setDefaults([hashtable]$defaults) {
+        foreach ($key in $defaults.Keys) {
+            if ($null -eq $this.$key) {
+                $this.$key = $defaults[$key]
+            }
+        }
+    }
+}
+
+if ($global:testing_BuildHelpers_psm1) {
+    Export-ModuleMember -Function *
+}
+else {
+    Export-ModuleMember -Function @(
+        "Prompt-YesNo",
+        "New-Manifest",
+        "New-ManifestList"
+    )
 }
