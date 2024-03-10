@@ -1,11 +1,5 @@
 using module '../BuildHelpers.psm1'
 
-# param (
-#     [string]$Platform,
-#     [string]$TargetStage,
-#     [string]$BaseImage
-# )
-
 param ([hashtable]$Spec)
 
 $base_spec = [BuildSpec]::fromHashtable($Spec)
@@ -18,10 +12,6 @@ $base_spec.setDefaults(@{
         TargetStage = 'development'
     })
 
-# $global:platform = -not [string]::IsNullOrWhiteSpace($Platform) ? $Platform : 'linux/amd64'
-# $global:target_stage = -not [string]::IsNullOrWhiteSpace($TargetStage) ? $TargetStage : 'development'
-# $global:base_image = -not [string]::IsNullOrWhiteSpace($BaseImage) ? $BaseImage : 'debian:bullseye-20240211-slim'
-
 # TODO: Here I was trying to change the name depending on the target stage
 # if ($global:target_stage -eq 'development') {
 #     $global:base_tag = 'base-dev:bullseye-20240211-slim'
@@ -29,14 +19,6 @@ $base_spec.setDefaults(@{
 # else {
 #     throw "Invalid base target stage specified: $global:target_stage"
 # }
-
-# $base_dockerfile = Resolve-Path (Join-Path $PSScriptRoot './bullseye.base.Dockerfile')
-
-# Write-Host "Building base image ..."
-# Write-Host "Platform: $global:platform"
-# Write-Host "Base image: $global:base_image"
-# Write-Host "Tag: $global:base_tag"
-# Write-Host "Target stage: $global:target_stage"
 
 $base_spec.display()
 

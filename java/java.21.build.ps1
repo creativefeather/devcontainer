@@ -1,30 +1,19 @@
 using module '../BuildHelpers.psm1'
 
-# param (
-#     [string]$Name = "java-maven",
-#     [string]$Platform,
-#     [string]$TargetStage,
-#     [string]$BaseImage
-# )
-
 param ([hashtable]$Spec)
 
 Import-Module (Resolve-Path (Join-Path $PSScriptRoot "../BuildHelpers.psm1"))
 
-# $NAME = $Name
-# $DOCKERFILE = Resolve-Path (Join-Path $PSScriptRoot "java.21.bullseye.Dockerfile")
-#$REGISTRY_HOST = "pi-cluster-1:5000"
+# TODO: Complete registry and manifest code
+# $REGISTRY_HOST = "pi-cluster-1:5000"
 $AMD64_URL = "https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-x64_bin.tar.gz"
 $ARM64_URL = "https://download.java.net/java/GA/jdk21.0.2/f2283984656d49d69e91c558476027ac/13/GPL/openjdk-21.0.2_linux-aarch64_bin.tar.gz"
 
 $imageList = New-Object System.Collections.ArrayList
 
-# $global:platform = -not [string]::IsNullOrWhiteSpace($Platform) ? $Platform : 'linux/amd64'
-# $global:target_stage = -not [string]::IsNullOrWhiteSpace($TargetStage) ? $TargetStage : 'development'
-
 $java_spec = [BuildSpec]::fromHashtable($Spec)
 $java_spec.setDefaults(@{
-        # BaseImage   = The lambda that runs the base image build
+        # TODO: BaseImage   = The lambda that runs the base image build
         Dockerfile  = Resolve-Path (Join-Path $PSScriptRoot "java.21.bullseye.Dockerfile")
         Name        = 'java-maven'
         Platform    = 'linux/amd64'
@@ -32,23 +21,7 @@ $java_spec.setDefaults(@{
         TargetStage = 'development'
     })
 
-
-# # If alternative base image is provided, ...
-# if (-not [string]::IsNullOrWhiteSpace($BaseImage)) {
-#     # then set as base image for java-maven build.
-#     $global:java_base_image = $BaseImage
-# }
-# else {
-#     # Else, build default base image
-#     . "..\base\bullseye.base.build.ps1" `
-#         -Platform $global:platform `
-#         -TargetStage $global:target_stage `
-#         -BaseImage "debian:bullseye-20240211-slim"
-    
-#     # and use as base image for java-maven build.
-#     $global:java_base_image = $global:base_tag
-# }
-
+# TODO: Move repeated logic into BuildSpec class
 if ($null -eq $Spec -or -not $Spec.ContainsKey("BaseImage")) {
     & (Resolve-Path (Join-Path $PSScriptRoot '../base/bullseye.base.build.ps1')) -Spec @{
         Platform    = $java_spec.Platform
@@ -62,18 +35,9 @@ if ($null -eq $Spec -or -not $Spec.ContainsKey("BaseImage")) {
 # - on the platform. OR actualy, different specs for different platforms.
 foreach ($platform in $java_spec.Platform -split ",") {
     switch ($platform) {
-        "linux/amd64" {  
-            #$AMD64_TAG = $NAME + ":amd64"
+        "linux/amd64" {
             $java_spec.Tag = "amd64"
-            #$imageList.Add($AMD64_TAG)
             $imageList.Add($java_spec.getNameTag())
-            #$global:java_tag = $AMD64_TAG
-
-            # Write-Host "Building java image ..."
-            # Write-Host "Platform: $platform"
-            # Write-Host "Base image: $global:java_base_image"
-            # Write-Host "Tag: $global:java_tag"
-            # Write-Host "Target stage: $global:target_stage"
 
             $java_spec.display()
 
@@ -86,17 +50,8 @@ foreach ($platform in $java_spec.Platform -split ",") {
                 .
         }
         "linux/arm64" {
-            #$ARM64_TAG = $NAME + ":arm64"
             $java_spec.Tag = "arm64"
-            #$imageList.Add($ARM64_TAG)
             $imageList.Add($java_spec.getNameTag())
-            #$global:java_tag = $ARM64_TAG
-
-            # Write-Host "Building java image ..."
-            # Write-Host "Platform: $platform"
-            # Write-Host "Base image: $global:java_base_image"
-            # Write-Host "Tag: $global:java_tag"
-            # Write-Host "Target stage: $global:target_stage"
 
             $java_spec.display()
 
