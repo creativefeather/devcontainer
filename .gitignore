@@ -1,1 +1,4 @@
-test/
+_examples/
+_test/
+**/.secrets/
+**/.env

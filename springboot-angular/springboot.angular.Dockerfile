@@ -21,4 +21,4 @@ ENV PATH="/home/dev/.nvm/versions/node/v20.11.1/bin:${PATH}"
 # Install Angular CLI
 RUN npm install -g @angular/cli
 
-CMD [ "node --version" ]
+CMD [ "node" "--version" ]

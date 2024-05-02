@@ -1,0 +1,57 @@
+services:
+  frontend:
+    image: angular:latest
+    build:
+      context: ../angular
+      dockerfile: ../angular/angular.dev.Dockerfile
+    ports:
+      - 4200:4200
+    volumes:
+      - type: bind
+        source: frontend
+        target: /app
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    image: java-maven:amd64
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - type: bind
+        source: backend
+        target: /app
+    depends_on:
+      db:
+        condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/ping" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+    command: /bin/sh -c "mvn dependency:go-offline && mvn clean && mvn spring-boot:run"
+
+  db:
+    image: mysql:8.3.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+    external: true

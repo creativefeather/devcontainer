@@ -17,10 +17,13 @@ ARG USER=dev
 ARG UID=1000
 ARG GID=1000
 
+ENV LANG=C.UTF-8
+ENV PROJECT_DIR=/app
+
     # create a non-root user, app directory and install dependencies that should be in all images
 RUN groupadd --gid "${GID}" ${USER} \
  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" -s "/bin/bash" "${USER}" \
- && mkdir -p /app \
+ && mkdir -p /${PROJECT_DIR} \
  && chown -R ${USER}:${GID} /app \
  && apt-get update \
  && apt-get install -y --no-install-recommends \

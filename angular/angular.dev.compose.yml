@@ -1,0 +1,8 @@
+frontend:
+    image: angular:17.2.3
+    ports:
+      - 4200:4200
+    volumes:
+      - type: bind
+        source: ./app
+        target: /app
