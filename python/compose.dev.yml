@@ -1,0 +1,10 @@
+services:
+  python-devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "8888:8080"
+    command: "tail -f /dev/null"

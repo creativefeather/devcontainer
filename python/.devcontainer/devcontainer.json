@@ -1,0 +1,40 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
+{
+    "name": "python-devcontainer",
+    // Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+    //"remoteUser": "dev",
+    "dockerComposeFile": [
+        "../compose.dev.yml"
+    ],
+    "workspaceFolder": "/app", // Location inside the container to open when the container is attached or created. This is relative to the 'workspaceFolder' defined with the 'workspaceFolder' property or the root of the git repository.
+    "service": "python-devcontainer", // Service name from docker-compose.yml that vscode should connect to.
+    // "mounts": [
+    //     {
+    //         "type": "bind",
+    //         "source": "${localWorkspaceFolder}",
+    //         "target": "/app"
+    //     }
+    // ],
+    "shutdownAction": "stopCompose",
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    // "features": {},
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        8888
+    ],
+    // Uncomment the next line to run commands after the container is created.
+    // "postCreateCommand": "cat /etc/os-release",
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "donjayamanne.python-environment-manager"
+            ]
+        }
+    }
+}
