@@ -1,0 +1,14 @@
+{
+  "name": "devcontainer",
+  "version": "1.0.0",
+  "description": "Git branched repo for my custom devcontainers--boilerplate/template",
+  "private": true,
+  "scripts": {
+    "build": "docker build --file .devcontainer/Dockerfile --tag creativefeather/nodejs-dev:latest .",
+    "push": "docker push creativefeather/nodejs-dev:latest",
+    "git:file": "git checkout nodejs --",
+    "git:orphan": "git checkout --orphan" 
+  },
+  "author": "\"creativefeather\" <\"creativefeather@outlook.com\">",
+  "license": "MIT"
+}
